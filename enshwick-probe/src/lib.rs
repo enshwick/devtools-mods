@@ -39,6 +39,7 @@ use enshwick::game_events::{
     RevivedPlayerEvent, XpGainedEvent,
 };
 use enshwick::i18n::Texts;
+use enshwick::knowledge::KnowledgeId;
 use enshwick::schedule::Scheduler;
 use enshwick::{Load, Mod, Off};
 
@@ -264,8 +265,10 @@ fn actions(
         let action = if with_bit { action.arg(bit()) } else { action };
         actions.add(action, move |request| {
             let (known, bit) = match request.args {
-                [Value::Number(known)] => (id(*known), None),
-                [Value::Number(known), Value::Number(bit)] => (id(*known), Some(id(*bit))),
+                [Value::Number(known)] => (KnowledgeId::new(id(*known)), None),
+                [Value::Number(known), Value::Number(bit)] => {
+                    (KnowledgeId::new(id(*known)), Some(id(*bit)))
+                }
                 _ => return Outcome::refused(""),
             };
             let me = request.player.entity;
