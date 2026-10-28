@@ -22,6 +22,7 @@ mod raw_stats;
 mod settings;
 mod stats;
 mod terrain;
+mod ticks;
 mod weather;
 
 use std::ops::ControlFlow;
@@ -109,6 +110,10 @@ fn extras(load: &mut Load<'_>, scheduler: Scheduler, settings: &Settings) -> Vec
     match stats::StatChecks::new(load, scheduler) {
         Ok(stats) => extras.push(Box::new(move || stats.run())),
         Err(off) => enshwick::warn!("FAIL stats: {off}"),
+    }
+    match ticks::TickChecks::new(load, scheduler) {
+        Ok(ticks) => extras.push(Box::new(move || ticks.run())),
+        Err(off) => enshwick::warn!("FAIL ticks: {off}"),
     }
     match terrain::TerrainChecks::new(load) {
         Ok(terrain) => extras.push(Box::new(move || terrain.run())),
