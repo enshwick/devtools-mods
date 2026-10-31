@@ -22,8 +22,8 @@ A package that builds only for Windows sets `windows-only = true` under
 and only `cargo xtask check --windows` runs its tests under Wine:
 directly on an amd64 Linux host that has Wine, otherwise in Docker, in an
 image built from `tools/wine/Dockerfile` on first use. On such a host, use
-the Wine of [GE-Proton](https://github.com/GloriousEggroll/proton-ge-custom),
-as CI does: unpack a release and put its `files/bin` first on `PATH`. On Apple silicon the
+the Wine of [GE-Proton](https://github.com/GloriousEggroll/proton-ge-custom):
+unpack a release and put its `files/bin` first on `PATH`. On Apple silicon the
 container runs through Rosetta, which cannot run tests of crashes, detours,
 patches and threads, so those are skipped there.
 
